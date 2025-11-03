@@ -1,0 +1,20 @@
+{
+  "name": "core-jules-api",
+  "main": "src/index.ts",
+  "compatibility_date": "2025-11-02",
+  "triggers": { "crons": ["*/15 * * * *"] },
+  "d1_databases": [
+    { "binding": "DB", "database_name": "jules_orchestrator_db" }
+  ],
+  "queues": [
+    { "binding": "JULES_QUEUE", "queue_name": "jules-queue" },
+    { "binding": "STATUS_QUEUE", "queue_name": "status-queue" }
+  ],
+  "durable_objects": {
+    "bindings": [{ "name": "SESSION_ACTOR", "class_name": "SessionActor" }]
+  },
+  "vars": {
+    "JULES_API_KEY": "your-secret",
+    "DEFAULT_MODEL": "@cf/openai/gpt-oss-120b"
+  }
+}
