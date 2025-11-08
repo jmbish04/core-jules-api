@@ -3,7 +3,7 @@ import { Env } from '../types';
 
 export const julesApi = {
   async createSession(env: Env, prompt: string) {
-    const res = await fetch('https://jules.googleapis.com/v1alpha/sessions', {
+    const res = await fetch(`${JULES_API_BASE_URL}/sessions`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
