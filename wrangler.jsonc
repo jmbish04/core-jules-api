@@ -1,21 +1,33 @@
 {
-  "name": "multi-protocol-worker",
+  "name": "core-jules-api",
   "main": "src/index.ts",
-  "compatibility_date": "2025-03-07",
+  "compatibility_date": "2025-11-02",
   "compatibility_flags": ["nodejs_compat"],
   "observability": {
     "enabled": true,
     "head_sampling_rate": 1
   },
+  "triggers": { "crons": ["*/15 * * * *"] },
+  "d1_databases": [
+    { "binding": "DB", "database_name": "core-jules-api", "database_id": "3345b863-31e2-4cd4-ae6a-64386386c59c", "migrations_dir":"migrations" }
+  ],
+  "queues": [
+    { "binding": "JULES_QUEUE", "queue_name": "core-jules-api-jules-ops" },
+    { "binding": "STATUS_QUEUE", "queue_name": "core-jules-api-status" }
+  ],
   "durable_objects": {
     "bindings": [
-      { "name": "ROOM_DO", "class_name": "RoomDO" }
+      { "name": "ROOM_DO", "class_name": "RoomDO" },
+      { "name": "SESSION_ACTOR", "class_name": "SessionActor" }
     ]
   },
   "migrations": [
     {
       "tag": "v1",
-      "new_classes": ["RoomDO"]
+      "new_sqlite_classes": ["RoomDO", "SessionActor"]
     }
-  ]
+  ],
+  "vars": {
+    "DEFAULT_MODEL": "@cf/openai/gpt-oss-120b"
+  }
 }
