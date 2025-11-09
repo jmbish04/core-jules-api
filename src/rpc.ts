@@ -28,7 +28,7 @@ const createTask = async (params: unknown, _env: Env, _ctx: ExecutionContext): P
  * Lists all tasks from the in-memory store.
  * @returns A list of tasks.
  */
-const listTasks = async (): Promise<z.infer<typeof S.ListTasksResponse>> => {
+const listTasks = async (_params: unknown, _env: Env, _ctx: ExecutionContext): Promise<z.infer<typeof S.ListTasksResponse>> => {
   return { success: true, tasks };
 };
 
