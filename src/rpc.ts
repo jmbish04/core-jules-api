@@ -12,7 +12,7 @@ const tasks: S.TTask[] = [];
  * @param params - The parameters for creating the task.
  * @returns The created task.
  */
-const createTask = async (params: unknown): Promise<z.infer<typeof S.CreateTaskResponse>> => {
+const createTask = async (params: unknown, _env: Env, _ctx: ExecutionContext): Promise<z.infer<typeof S.CreateTaskResponse>> => {
   const input = S.CreateTaskRequest.parse(params);
   const task: S.TTask = {
     id: crypto.randomUUID(),
