@@ -35,16 +35,18 @@ describe("Worker", () => {
 
   it("should list tasks", async () => {
     // First create a task
-    await worker.fetch("/api/tasks", {
+    const taskTitle = "another test task";
+    const createResp = await worker.fetch("/api/tasks", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ title: "another test task" }),
+        body: JSON.stringify({ title: taskTitle }),
     });
+    const { task: createdTask } = await createResp.json() as any;
 
     const resp = await worker.fetch("/api/tasks");
     expect(resp.status).toBe(200);
     const json: any = await resp.json();
     expect(json.success).toBe(true);
-    expect(json.tasks.some((task: any) => task.title === "another test task")).toBe(true);
+    expect(json.tasks.some((t: any) => t.id === createdTask.id)).toBe(true);
   });
 });

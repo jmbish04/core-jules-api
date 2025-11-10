@@ -3,7 +3,8 @@ import { RoomDO } from "./do/RoomDO";
 import { buildOpenAPIDocument } from "./utils/openapi";
 import { mcpRoutes } from "./mcp";
 import type { Env } from "./types";
-import { parse, stringify } from "yaml";
+import { stringify } from "yaml";
+import { z } from "zod";
 
 export default {
   /**
@@ -22,14 +23,13 @@ export default {
     const url = new URL(request.url);
 
     // Handle OpenAPI spec requests.
-    if (url.pathname === "/openapi.json") {
+    if (url.pathname === "/openapi.json" || url.pathname === "/openapi.yaml") {
       const doc = buildOpenAPIDocument(url.origin);
+      if (url.pathname === "/openapi.yaml") {
+        const yaml = stringify(doc);
+        return new Response(yaml, { headers: { "Content-Type": "application/yaml" } });
+      }
       return Response.json(doc);
-    }
-    if (url.pathname === "/openapi.yaml") {
-      const doc = buildOpenAPIDocument(url.origin);
-      const yaml = stringify(doc);
-      return new Response(yaml, { headers: { "Content-Type": "application/yaml" } });
     }
 
     // Handle WebSocket upgrade requests.
@@ -53,7 +53,18 @@ export default {
           const res = await routes.execute(env, ctx, body);
           return Response.json(res);
         } catch (e: any) {
-          return Response.json({ success: false, error: e?.message ?? "MCP error" }, { status: 400 });
+          const isZodError = e instanceof z.ZodError;
+          return new Response(
+            JSON.stringify({
+              success: false,
+              error: e?.message ?? "MCP error",
+              details: isZodError ? e.issues : undefined,
+            }),
+            {
+              status: 400,
+              headers: { "Content-Type": "application/json" },
+            }
+          );
         }
       }
       return new Response("MCP endpoint not found", { status: 404 });

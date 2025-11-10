@@ -12,7 +12,7 @@ const tasks: S.TTask[] = [];
  * @param params - The parameters for creating the task.
  * @returns The created task.
  */
-const createTask = async (params: unknown): Promise<z.infer<typeof S.CreateTaskResponse>> => {
+const createTask = async (params: unknown, _env: Env, _ctx: ExecutionContext): Promise<z.infer<typeof S.CreateTaskResponse>> => {
   const input = S.CreateTaskRequest.parse(params);
   const task: S.TTask = {
     id: crypto.randomUUID(),
@@ -28,7 +28,7 @@ const createTask = async (params: unknown): Promise<z.infer<typeof S.CreateTaskR
  * Lists all tasks from the in-memory store.
  * @returns A list of tasks.
  */
-const listTasks = async (): Promise<z.infer<typeof S.ListTasksResponse>> => {
+const listTasks = async (_params: unknown, _env: Env, _ctx: ExecutionContext): Promise<z.infer<typeof S.ListTasksResponse>> => {
   return { success: true, tasks };
 };
 
@@ -37,7 +37,7 @@ const listTasks = async (): Promise<z.infer<typeof S.ListTasksResponse>> => {
  * @param params - The parameters for the analysis.
  * @returns An analysis report.
  */
-const runAnalysis = async (params: unknown): Promise<z.infer<typeof S.AnalysisResponse>> => {
+const runAnalysis = async (params: unknown, _env: Env, _ctx: ExecutionContext): Promise<z.infer<typeof S.AnalysisResponse>> => {
   const input = S.AnalysisRequest.parse(params);
   // In a real app, you might fetch the task and perform a real analysis.
   return {

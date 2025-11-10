@@ -147,10 +147,11 @@ curl -sX POST "$BASE/mcp/execute" \
   -H 'Content-Type: application/json' \
   -d '{"tool": "createTask", "params": {"title": "A task from MCP"}}' | jq
 
-# Execute the 'runAnalysis' tool
+# Execute the 'runAnalysis' tool by first creating a task
+TASK_ID=$(curl -sX POST "$BASE/api/tasks" -H 'Content-Type: application/json' -d '{"title": "Task for MCP analysis"}' | jq -r .task.id)
 curl -sX POST "$BASE/mcp/execute" \
   -H 'Content-Type: application/json' \
-  -d '{"tool": "runAnalysis", "params": {"taskId": "123e4567-e89b-12d3-a456-426614174000", "depth": 1}}' | jq
+  -d '{"tool": "runAnalysis", "params": {"taskId": "'"$TASK_ID"'", "depth": 1}}' | jq
 ```
 
 ---

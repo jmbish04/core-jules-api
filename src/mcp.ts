@@ -1,11 +1,11 @@
 import { z } from "zod";
-import { dispatchRPC, rpcRegistry } from "./rpc";
+import { dispatchRPC, rpcRegistry, RpcMethodName } from "./rpc";
 import type { Env } from "./types";
 import type { ExecutionContext } from "@cloudflare/workers-types";
 import zodToJsonSchema from "zod-to-json-schema";
 import * as S from "./schemas/apiSchemas";
 
-const mcpToolSchemas = {
+const mcpToolSchemas: Record<RpcMethodName, z.ZodType> = {
   createTask: S.CreateTaskRequest,
   listTasks: z.object({}), // listTasks has no parameters
   runAnalysis: S.AnalysisRequest,
@@ -28,7 +28,7 @@ export function mcpRoutes() {
      */
     tools: async () => {
       const tools = Object.keys(rpcRegistry).map((name) => {
-        const schema = zodToJsonSchema(mcpToolSchemas[name as keyof typeof mcpToolSchemas]);
+        const schema = zodToJsonSchema(mcpToolSchemas[name as RpcMethodName]);
         return {
           name,
           description: `Tool for ${name}`,
