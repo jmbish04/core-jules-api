@@ -1,4 +1,7 @@
 import { z } from "zod";
+import { extendZodWithOpenApi } from "@asteasolutions/zod-to-openapi";
+
+extendZodWithOpenApi(z);
 
 export const Task = z.object({
   id: z.string().uuid().openapi({ example: "123e4567-e89b-12d3-a456-426614174000" }),
