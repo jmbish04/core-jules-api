@@ -1,21 +1,89 @@
 {
-  "name": "core-jules-api",
-  "main": "src/index.ts",
-  "compatibility_date": "2025-03-07",
-  "compatibility_flags": ["nodejs_compat"],
-  "observability": {
-    "enabled": true,
-    "head_sampling_rate": 1
-  },
-  "durable_objects": {
-    "bindings": [
-      { "name": "ROOM_DO", "class_name": "RoomDO" }
-    ]
-  },
-  "migrations": [
-    {
-      "tag": "v1",
-      "new_classes": ["RoomDO"]
-    }
-  ]
-}
+	"$schema": "https_//raw.githubusercontent.com/cloudflare/workerd/main/src/workerd/api/config.schema.json",
+	"name": "core-jules-api",
+	"main": "src/index.ts",
+	"compatibility_date": "2024-07-25",
+	"compatibility_flags": [
+	  "nodejs_compat"
+	],
+	"observability": {
+		"enabled": true,
+		"head_sampling_rate": 1
+	},	
+	"durable_objects": {
+	  "bindings": [
+		{
+		  "name": "SESSION_DO",
+		  "class_name": "SessionDO"
+		},
+		{
+		  "name": "ROOM_DO",
+		  "class_name": "RoomDO"
+		}
+	  ]
+	},
+	"migrations": [
+		{
+		  "tag": "v1",
+		  "new_sqliteclasses": [
+			"SessionDO"
+		  ]
+		}
+	  ],
+	"kv_namespaces": [
+	  {
+		"binding": "ETAG_KV",
+		"id": "etag_cache_namespace_id"
+	  }
+	],	
+	"d1_databases": [
+	  {
+		"binding": "DB",
+		"database_name": "core-jules-api",
+		"database_id": "949a78b8-10c1-4a1b-85a7-30e010466d61",
+		"database_preview_id": "34fbbb70-d0aa-48ef-9d1e-f92059f4c46e",
+		"remote": true,
+		"migration_dir": "drizzle/migrations"
+	  },
+	  {
+		"binding": "CORE_GITHUB_API",
+		"database_name": "core-github-api",
+		"database_id": "your_core_github_api_db_id",
+		"remote": true
+	  }
+	],
+	"services": [
+	  {
+		"binding": "GITHUB",
+		"service": "core-github-api"
+	  }
+	],
+	"queues": {
+	  "producers": [
+		{
+		  "binding": "AGENT_QUEUE",
+		  "queue": "jules-orchestrator-queue"
+		}
+	  ],
+	  "consumers": [
+		{
+		  "queue": "jules-orchestrator-queue",
+		  "max_batch_size": 5,
+		  "max_retries": 3
+		}
+	  ]
+	},
+	"triggers": {
+	  "crons": [
+		"0 0 * * *"
+	  ]
+	},
+
+	"vars": {
+	  "JULES_BASE_URL": "https://jules.googleapis.com/v1alpha",
+	  "DEFAULT_GITHUB_OWNER": "jmbish04",
+	  "GITHUB_TOKEN": "your_github_token_here",
+	  "LOG_LEVEL": "info",
+	  "WORKER_API_KEY": "your_api_key_here"
+	}
+  }

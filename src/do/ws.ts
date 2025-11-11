@@ -1,3 +1,5 @@
+import type { DurableObjectState, WebSocket } from "@cloudflare/workers-types";
+
 /**
  * Broadcasts a message to all connected WebSocket clients in a room,
  * optionally excluding the sender.

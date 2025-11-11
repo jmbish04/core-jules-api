@@ -1,9 +1,8 @@
 import { z } from "zod";
-import { dispatchRPC, rpcRegistry, RpcMethodName } from "./rpc";
-import type { Env } from "./types";
+import { dispatchRPC, rpcRegistry, RpcMethodName } from "../rpc";
 import type { ExecutionContext } from "@cloudflare/workers-types";
 import zodToJsonSchema from "zod-to-json-schema";
-import * as S from "./schemas/apiSchemas";
+import * as S from "../../routes/api/schemas";
 
 const mcpToolSchemas: Record<RpcMethodName, z.ZodType> = {
   createTask: S.CreateTaskRequest,

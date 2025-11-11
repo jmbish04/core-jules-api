@@ -1,7 +1,6 @@
 import { z } from "zod";
-import * as S from "./schemas/apiSchemas";
-import type { Env } from "./types";
-import type { ExecutionContext } from "@cloudflare/workers-types";
+import * as S from "../../routes/api/schemas";
+import type { ExecutionContext, D1Database } from "@cloudflare/workers-types";
 
 // A simple in-memory store for tasks, for demonstration purposes.
 // In a real application, you would use a database like D1.
@@ -84,4 +83,70 @@ export async function dispatchRPC(
   // We perform a runtime check, so we can safely cast the method name.
   const handler = rpcRegistry[method as RpcMethodName];
   return await handler(params, env, ctx);
+}
+
+/**
+ * GitHubWorkerRPC - RPC interface for GitHub operations (stub implementation)
+ */
+export class GitHubWorkerRPC {
+  constructor(private env: Env) {}
+
+  async health() {
+    return { status: 'ok', timestamp: new Date().toISOString() }
+  }
+
+  async upsertFile(request: any) {
+    // Stub implementation
+    throw new Error('GitHubWorkerRPC.upsertFile not implemented')
+  }
+
+  async listRepoTree(request: any) {
+    // Stub implementation
+    throw new Error('GitHubWorkerRPC.listRepoTree not implemented')
+  }
+
+  async openPullRequest(request: any) {
+    // Stub implementation
+    throw new Error('GitHubWorkerRPC.openPullRequest not implemented')
+  }
+
+  async createIssue(request: any) {
+    // Stub implementation
+    throw new Error('GitHubWorkerRPC.createIssue not implemented')
+  }
+
+  async octokitRest(request: any) {
+    // Stub implementation
+    throw new Error('GitHubWorkerRPC.octokitRest not implemented')
+  }
+
+  async octokitGraphQL(request: any) {
+    // Stub implementation
+    throw new Error('GitHubWorkerRPC.octokitGraphQL not implemented')
+  }
+
+  async createSession(request: any) {
+    // Stub implementation
+    throw new Error('GitHubWorkerRPC.createSession not implemented')
+  }
+
+  async getSessionStatus(request: any) {
+    // Stub implementation
+    throw new Error('GitHubWorkerRPC.getSessionStatus not implemented')
+  }
+
+  async searchRepositories(request: any) {
+    // Stub implementation
+    throw new Error('GitHubWorkerRPC.searchRepositories not implemented')
+  }
+
+  async batchUpsertFiles(requests: any) {
+    // Stub implementation
+    throw new Error('GitHubWorkerRPC.batchUpsertFiles not implemented')
+  }
+
+  async batchCreateIssues(requests: any) {
+    // Stub implementation
+    throw new Error('GitHubWorkerRPC.batchCreateIssues not implemented')
+  }
 }

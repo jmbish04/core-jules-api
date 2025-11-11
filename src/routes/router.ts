@@ -1,8 +1,7 @@
 import { Hono, Context } from "hono";
 import { cors } from "hono/cors";
 import { z } from "zod";
-import { dispatchRPC } from "./rpc";
-import type { Env } from "./types";
+import { dispatchRPC } from "../protocols/rpc";
 
 /**
  * Creates a standardized JSON error response.

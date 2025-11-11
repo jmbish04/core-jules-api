@@ -1,5 +1,5 @@
 import { OpenAPIRegistry, OpenApiGeneratorV31 } from "@asteasolutions/zod-to-openapi";
-import * as S from "../schemas/apiSchemas";
+import * as S from "../routes/api/schemas";
 
 /**
  * Builds the OpenAPI 3.1.0 document at runtime from Zod schemas.
