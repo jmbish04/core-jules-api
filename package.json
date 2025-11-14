@@ -1,5 +1,5 @@
 {
-  "name": "jules-orchestrator-worker",
+  "name": "core-jules-api",
   "version": "1.0.0",
   "private": true,
   "main": "src/index.ts",
@@ -18,7 +18,7 @@
     "@hono/zod-validator": "^0.2.2",
     "@octokit/graphql": "^8.1.1",
     "@octokit/plugin-retry": "^6.0.1",
-    "@octokit/plugin-throttling": "^9.3.2",
+    "@octokit/plugin-throttling": "^6.0.1",
     "@octokit/rest": "^20.1.2",
     "@types/node": "^24.10.0",
     "drizzle-orm": "^0.32.1",
