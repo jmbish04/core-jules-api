@@ -1,19 +1,30 @@
 {
-	"files": [],
-	"references": [
-		{
-			"path": "./tsconfig.app.json"
-		},
-		{
-			"path": "./tsconfig.node.json"
-		},
-		{
-			"path": "./tsconfig.worker.json"
-		}
-	],
 	"compilerOptions": {
+		"target": "esnext",
+		"module": "esnext",
+		"lib": [
+			"esnext"
+		],
+		"moduleResolution": "bundler",
 		"types": [
 			"./worker-configuration.d.ts"
-		]
-	}
+		],
+		"jsx": "react",
+		"strict": false,
+		"esModuleInterop": true,
+		"skipLibCheck": true,
+		"forceConsistentCasingInFileNames": true,
+		"resolveJsonModule": true,
+		"allowSyntheticDefaultImports": true,
+		"noEmit": true,
+		"noImplicitAny": false
+	},
+	"include": [
+		"backend/**/*",
+		"scripts/**/*",
+		"worker-configuration.d.ts"
+	],
+	"exclude": [
+		"node_modules"
+	]
 }

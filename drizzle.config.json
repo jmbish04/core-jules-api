@@ -1,0 +1,11 @@
+{
+    "out": "./drizzle/migrations",
+    "schema": "./backend/db/schema.ts",
+    "dialect": "sqlite",
+    "driver": "d1-http",
+    "dbCredentials": {
+        "accountId": "CLOUDFLARE_ACCOUNT_ID",
+        "databaseId": "949a78b8-10c1-4a1b-85a7-30e010466d61",
+        "token": "CLOUDFLARE_API_TOKEN"
+    }
+}

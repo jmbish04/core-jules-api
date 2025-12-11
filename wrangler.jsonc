@@ -5,14 +5,82 @@
 {
 	"$schema": "node_modules/wrangler/config-schema.json",
 	"name": "core-jules-api",
-	"main": "worker/index.ts",
+	"main": "backend/index.ts",
 	"compatibility_date": "2024-11-11",
+	"compatibility_flags": [
+		"nodejs_compat"
+	],
+	"upload_source_maps": true,
+	"observability": {
+		"enabled": true,
+		"head_sampling_rate": 1
+	},
+	"dev": {
+		"port": 8980
+	},
+	"ai": {
+		"binding": "AI",
+		"remote": true
+	},
 	"assets": {
+		"directory": "public",
+		"binding": "ASSETS",
 		"not_found_handling": "single-page-application"
 	},
-	"observability": {
-		"enabled": true
-	}
+	"d1_databases": [
+		{
+			"binding": "DB",
+			"database_name": "core-jules-api",
+			"database_id": "949a78b8-10c1-4a1b-85a7-30e010466d61",
+			"migrations_dir": "drizzle/migrations"
+		}
+	],
+	"triggers": {
+		"crons": [
+			"*/5 * * * *"
+		] // Removed in favor of Agent internal scheduling
+	},
+	"durable_objects": {
+		"bindings": [
+			{
+				"name": "JulesSupervisor",
+				"class_name": "JulesSupervisor"
+			}
+		]
+	},
+	"migrations": [
+		{
+			"tag": "v1",
+			"new_sqlite_classes": [
+				"JulesSupervisor"
+			]
+		}
+	],
+	// wrangler vectorize create core-jules-api --preset @cf/baai/bge-large-en-v1.5
+	"vectorize": [
+		{
+			"binding": "VECTORIZE",
+			"index_name": "core-jules-api"
+		}
+	],
+	"vars": {
+		"MCP_API_URL": "https://docs.mcp.cloudflare.com/mcp",
+		"WORKER_URL": "https://core-jules-api.hacolby.workers.dev",
+		// "WORKER_API_KEY": "dev-api-key", -- This is set as a secret
+		"GEMINI_MODEL": "gemini-3-pro-preview",
+		"OPENAI_MODEL": "gpt-5.1",
+		"DEFAULT_MODEL_REASONING": "@cf/meta/llama-4-scout-17b-16e-instruct",
+		"DEFAULT_MODEL_STRUCTURED_RESPONSE": "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
+		"DEFAULT_MODEL_EMBEDDING": "@cf/baai/bge-large-en-v1.5",
+		"DEFAULT_MODEL_RERANKER": "@cf/baai/bge-reranker-base",
+		"AI_GATEWAY_NAME": "ask-cloudflare-mcp"
+	},
+	"kv_namespaces": [
+		{
+			"binding": "AGENT_MEMORY",
+			"id": "b392ebc8ab584f6eb89c79e79890fc40"
+		}
+	],
 	/**
 	 * Smart Placement
 	 * Docs: https://developers.cloudflare.com/workers/configuration/smart-placement/#smart-placement
