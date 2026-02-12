@@ -1,9 +1,40 @@
 {
+  "name": "core-jules-api",
+  "version": "1.0.0",
+  "private": true,
+  "main": "src/index.ts",
+  "scripts": {
+    "deploy": "npm run build && npm run migrate:remote && wrangler deploy",
+    "build": "echo 'Build step not required for this ES-module worker'",
+    "start": "wrangler dev",
+    "migrate:remote": "npm run generate:db && wrangler d1 migrations apply DB --remote",
+    "migrate:local": "npm run generate:db && wrangler d1 migrations apply DB --local",
+    "generate:db": "drizzle-kit generate",
+    "check": "drizzle-kit check"
+  },
   "dependencies": {
-    "@hono/zod-validator": "^0.7.4",
-    "@modelcontextprotocol/sdk": "^1.20.2",
-    "agents": "^0.2.20",
-    "hono": "^4.10.4",
-    "zod": "^4.1.12"
+    "@hono/swagger-ui": "^0.2.1",
+    "@hono/zod-openapi": "^0.11.1",
+    "@hono/zod-validator": "^0.2.2",
+    "@octokit/graphql": "^8.1.1",
+    "@octokit/plugin-retry": "^6.0.1",
+    "@octokit/plugin-throttling": "^6.0.1",
+    "@octokit/rest": "^20.1.2",
+    "@types/node": "^24.10.0",
+    "drizzle-orm": "^0.32.1",
+    "hono": "^4.5.1",
+    "kysely": "^0.27.4",
+    "uuid": "^10.0.0",
+    "yaml": "^2.5.0",
+    "zod": "^3.23.8",
+    "zod-to-json-schema": "^3.23.1"
+  },
+  "devDependencies": {
+    "@babel/standalone": "^7.24.9",
+    "@cloudflare/workers-types": "^4.20251111.0",
+    "@types/uuid": "^10.0.0",
+    "drizzle-kit": "^0.23.0",
+    "typescript": "^5.5.3",
+    "wrangler": "^3.67.1"
   }
 }
