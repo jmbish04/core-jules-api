@@ -1,0 +1,24 @@
+CREATE TABLE sessions (
+  id TEXT PRIMARY KEY,
+  prompt TEXT,
+  julesSessionId TEXT,
+  status TEXT,
+  createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE phases (
+  id TEXT PRIMARY KEY,
+  sessionId TEXT,
+  prompt TEXT,
+  status TEXT,
+  createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY(sessionId) REFERENCES sessions(id)
+);
+
+CREATE TABLE logs (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  ts TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  level TEXT,
+  message TEXT,
+  meta TEXT
+);

@@ -7,9 +7,9 @@
     "deploy": "npm run build && npm run migrate:remote && wrangler deploy",
     "build": "echo 'Build step not required for this ES-module worker'",
     "start": "wrangler dev",
-    "migrate:remote": "wrangler d1 migrations apply DB --remote",
-    "migrate:local": "wrangler d1 migrations apply DB --local",
-    "generate": "drizzle-kit generate",
+    "migrate:remote": "npm run generate:db && wrangler d1 migrations apply DB --remote",
+    "migrate:local": "npm run generate:db && wrangler d1 migrations apply DB --local",
+    "generate:db": "drizzle-kit generate",
     "check": "drizzle-kit check"
   },
   "dependencies": {
