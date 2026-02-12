@@ -1,7 +1,7 @@
 // src/utils/dbUtils.ts
 export async function updateSessionStatus(db: D1Database, id: string, status: string, julesSessionId?: string) {
   await db.prepare(
-    `UPDATE sessions SET status = ?, julesSessionId = ? WHERE id = ?`
+    `UPDATE sessions SET status = ?, julesSessionId = COALESCE(?, julesSessionId) WHERE id = ?`
   ).bind(status, julesSessionId || null, id).run();
 }
 
